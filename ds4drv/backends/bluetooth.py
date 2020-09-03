@@ -120,6 +120,17 @@ class BluetoothBackend(Backend):
                 self.logger.info("Found device {0}", bdaddr)
                 return BluetoothDS4Device.connect(bdaddr)
 
+    def specify_addr_connect(self,specify_bdaddr):
+        """ Scan for bluetooth devices and connect specify bdaddr connect """
+        for bdaddr, name in self.scan():
+            if name == "Wireless Controller":
+                self.logger.info("Found device {0}", bdaddr)
+                if specify_bdaddr == bdaddr:
+                    self.logger.info("Found specify device {0}", bdaddr)
+                    return BluetoothDS4Device.connect(bdaddr)
+                else:
+                    return None
+
     @property
     def devices(self):
         """Wait for new DS4 devices to appear."""
